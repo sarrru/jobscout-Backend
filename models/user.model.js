@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+    // fullname
     fullname: {
         type: String,
         required: true
@@ -10,6 +11,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    
+    // phoneNumber
     phoneNumber: {
         type: Number,
         required: true
@@ -21,7 +24,7 @@ const userSchema = new mongoose.Schema({
     role:{
         type:String,
         enum:['student','recruiter'],
-        required:true
+        // required:true
     },
     profile:{
         bio:{type:String},
