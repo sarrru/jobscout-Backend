@@ -1,6 +1,7 @@
 import { Company } from "../models/company.model.js";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
-// Register a new company
 export const registerCompany = async (req, res) => {
     try {
         const { companyName } = req.body;
@@ -13,10 +14,10 @@ export const registerCompany = async (req, res) => {
         let company = await Company.findOne({ name: companyName });
         if (company) {
             return res.status(400).json({
-                message: "You can't register the same company.",
+                message: "You can't register same company.",
                 success: false
-            });
-        }
+            })
+        };
         company = await Company.create({
             name: companyName,
             userId: req.id
@@ -26,35 +27,30 @@ export const registerCompany = async (req, res) => {
             message: "Company registered successfully.",
             company,
             success: true
-        });
+        })
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error", success: false });
+        console.log(error);
     }
-};
-
-// Get all companies for a logged-in user
+}
 export const getCompany = async (req, res) => {
     try {
-        const userId = req.id; // Logged-in user ID
+        const userId = req.id; // logged in user id
         const companies = await Company.find({ userId });
-        if (!companies || companies.length === 0) {
+        if (!companies) {
             return res.status(404).json({
-                message: "No companies found.",
+                message: "Companies not found.",
                 success: false
-            });
+            })
         }
         return res.status(200).json({
             companies,
-            success: true
-        });
+            success:true
+        })
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error", success: false });
+        console.log(error);
     }
-};
-
-// Get a single company by ID
+}
+// get company by id
 export const getCompanyById = async (req, res) => {
     try {
         const companyId = req.params.id;
@@ -63,28 +59,27 @@ export const getCompanyById = async (req, res) => {
             return res.status(404).json({
                 message: "Company not found.",
                 success: false
-            });
+            })
         }
         return res.status(200).json({
             company,
             success: true
-        });
+        })
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error", success: false });
+        console.log(error);
     }
-};
-
-// Update a company's details
+}
 export const updateCompany = async (req, res) => {
     try {
         const { name, description, website, location } = req.body;
-        const updateData = { name, description, website, location };
-
-        // Handle file upload (e.g., Cloudinary integration if needed)
-        if (req.file) {
-            updateData.logo = req.file.path; // Assuming file is stored and path is returned
-        }
+ 
+        const file = req.file;
+        //  cloudinary 
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        const logo = cloudResponse.secure_url;
+    
+        const updateData = { name, description, website, location, logo };
 
         const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
@@ -92,17 +87,14 @@ export const updateCompany = async (req, res) => {
             return res.status(404).json({
                 message: "Company not found.",
                 success: false
-            });
+            })
         }
-
         return res.status(200).json({
-            message: "Company information updated.",
-            company,
-            success: true
-        });
+            message:"Company information updated.",
+            success:true
+        })
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error", success: false });
+        console.log(error);
     }
-};
+}
