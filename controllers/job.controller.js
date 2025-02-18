@@ -1,5 +1,5 @@
 import { Job } from "../models/job.model.js";
-import { Application } from "../models/application.model.js";
+// import { Application } from "../models/application.model.js";
 
 
 // The admin will post the job
@@ -37,13 +37,12 @@ export const postJob = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            message: "Server error",
-            success: false
-        });
+        // return res.status(500).json({
+        //     message: "Server error",
+        //     success: false
+        // });
     }
-};
-
+}
 // Get all jobs (jobseeker)
 export const getAllJobs = async (req, res) => {
     try {
@@ -71,10 +70,10 @@ export const getAllJobs = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            message: "Server error",
-            success: false
-        });
+        // return res.status(500).json({
+        //     message: "Server error",
+        //     success: false
+        // });
     }
 };
 
@@ -99,10 +98,10 @@ export const getJobById = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            message: "Server error",
-            success: false
-        });
+        // return res.status(500).json({
+        //     message: "Server error",
+        //     success: false
+        // });
     }
 };
 
@@ -128,10 +127,10 @@ export const getAdminJobs = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({
-            message: "Server error",
-            success: false
-        });
+        // return res.status(500).json({
+        //     message: "Server error",
+        //     success: false
+        // });
     }
 };
 
