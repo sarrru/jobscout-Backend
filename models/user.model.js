@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     
     // phoneNumber
     phoneNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     password:{
@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
         // required:true
     },
     profile:{
+        // required:false,
         bio:{type:String},
         skills:[{type:String}],
         resume:{type:String}, // URL to resume file
@@ -35,7 +36,10 @@ const userSchema = new mongoose.Schema({
         profilePhoto:{
             type:String,
             default:""
+
         }
+              
+        
     },
 },{timestamps:true});
 export const User = mongoose.model('User', userSchema);
