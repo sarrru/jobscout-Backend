@@ -1,20 +1,22 @@
 import { Job } from "../models/job.model.js";
-// import { Application } from "../models/application.model.js";
+ import { Application } from "../models/application.model.js";
 
 
 // The admin will post the job
 export const postJob = async (req, res) => {
     try {
-        const { title, description, requirements, salary, location, jobType, experience, position, companyId } = req.body;
+        const { title, description, requirements, salary, location, jobType, experience, position, company } = req.body;
         const userId = req.id;
 
-        // Check if all required fields are provided
-        if (!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
+          // Check if all required fields are provided
+          if (!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
             return res.status(400).json({
                 message: "Something is missing.",
                 success: false
             });
         }
+
+        
 
         // Create the job
         const job = await Job.create({
@@ -26,7 +28,7 @@ export const postJob = async (req, res) => {
             jobType,
             experienceLevel: experience,
             position,
-            company: companyId,
+            company: company,
             created_by: userId
         });
 
@@ -133,4 +135,3 @@ export const getAdminJobs = async (req, res) => {
         // });
     }
 };
-

@@ -11,8 +11,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    
-    // phoneNumber
     phoneNumber: {
         type: String,
         required: true
@@ -24,7 +22,6 @@ const userSchema = new mongoose.Schema({
     role:{
         type:String,
         enum:['student','recruiter'],
-        // required:true
     },
     profile:{
         // required:false,
@@ -38,8 +35,6 @@ const userSchema = new mongoose.Schema({
             default:""
 
         }
-              
-        
     },
 },{timestamps:true});
 export const User = mongoose.model('User', userSchema);
